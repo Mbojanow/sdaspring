@@ -8,8 +8,17 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class OnApplicationStartupRunner implements CommandLineRunner {
 
+    private final HelloLogger helloLogger;
+    private final HelloLogger2 helloLogger2;
+
+    public OnApplicationStartupRunner(final HelloLogger helloLogger, final HelloLogger2 helloLogger2) {
+        this.helloLogger = helloLogger;
+        this.helloLogger2 = helloLogger2;
+    }
+
     @Override
     public void run(final String... args) throws Exception {
-        log.info("Hello from command line runner");
+        helloLogger.logHello();
+        helloLogger2.doSomeLog();
     }
 }
