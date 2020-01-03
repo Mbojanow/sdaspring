@@ -5,8 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class HelloLogger {
+public class HelloLogger implements HelloLog {
 
+    @Override
     public void logHello() {
         log.info("Hello from hello logger");
     }

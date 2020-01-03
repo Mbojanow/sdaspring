@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class HelloLoggerConfiguration {
 
     @Bean
-    public HelloLogger2 helloLogger2() {
+    public HelloLog helloLogz() {
         return new HelloLogger2();
     }
 }
