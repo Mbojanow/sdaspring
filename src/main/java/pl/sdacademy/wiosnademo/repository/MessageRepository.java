@@ -3,6 +3,7 @@ package pl.sdacademy.wiosnademo.repository;
 import org.springframework.stereotype.Repository;
 import pl.sdacademy.wiosnademo.model.Message;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class MessageRepository {
 
     public Message create(final Message message) {
         message.setId(id++);
+        message.setSendDate(LocalDateTime.now());
         messages.add(message);
         return message;
     }
@@ -30,7 +32,7 @@ public class MessageRepository {
                 .orElseThrow();
     }
 
-    public void deleteByIf(final Long id) {
+    public void deleteById(final Long id) {
         messages.stream()
                 .filter(message -> message.getId().equals(id))
                 .findFirst()
