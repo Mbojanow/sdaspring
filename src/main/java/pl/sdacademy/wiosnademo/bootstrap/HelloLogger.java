@@ -2,11 +2,13 @@ package pl.sdacademy.wiosnademo.bootstrap;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 @Primary
+@Scope(scopeName = "prototype")
 public class HelloLogger implements HelloLog {
 
     @Override
