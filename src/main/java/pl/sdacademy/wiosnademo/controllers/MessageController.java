@@ -2,10 +2,14 @@ package pl.sdacademy.wiosnademo.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.sdacademy.wiosnademo.model.Message;
 import pl.sdacademy.wiosnademo.model.Messages;
+import pl.sdacademy.wiosnademo.model.SimpleError;
 import pl.sdacademy.wiosnademo.repository.MessageRepository;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(path = "/api/v1/messages", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -39,4 +43,9 @@ public class MessageController {
         messageRepository.deleteById(id);
     }
 
+
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<SimpleError> handle(final Exception exp, final HttpServletRequest request) {
+//        return ResponseEntity.badRequest().body(new SimpleError(exp.getMessage()));
+//    }
 }
