@@ -8,6 +8,10 @@ import pl.sdacademy.wiosnademo.services.ParkingLotService;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
+import static java.util.Objects.isNull;
+
 @RestController
 @RequestMapping("/api/v1/parking-lots")
 public class ParkingLotController {
@@ -19,8 +23,14 @@ public class ParkingLotController {
     }
 
     @GetMapping
-    public ParkingLots getAll() {
-        return new ParkingLots(parkingLotService.getAll());
+    public ParkingLots getAll(@RequestParam(name = "name", required = false) final String name) {
+        if (isNull(name)) {
+            return new ParkingLots(parkingLotService.getAll());
+        }
+
+        return parkingLotService.findByName(name)
+                .map(x -> new ParkingLots(List.of(x)))
+                .orElse(new ParkingLots());
     }
 
     @GetMapping(path = "/{id}")

@@ -7,6 +7,7 @@ import pl.sdacademy.wiosnademo.exceptions.GenericException;
 import pl.sdacademy.wiosnademo.repositories.ParkingLotRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -52,5 +53,9 @@ public class ParkingLotService {
         parkingLotRepository.findById(id)
                 .orElseThrow(() -> new GenericException("Cannot delete parking lot with id " + id + " because it does not exist"));
         parkingLotRepository.deleteById(id);
+    }
+
+    public Optional<ParkingLot> findByName(final String name) {
+        return parkingLotRepository.findByName(name);
     }
 }
