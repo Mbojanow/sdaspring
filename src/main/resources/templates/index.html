@@ -7,9 +7,17 @@
 </head>
 <body>
     <div class="main">
-        <p>Hello</p>
-        <p>Hi</p>
+        <p th:if="${firstName} != null and ${lastName} != null" th:text="Hi + ' ' + ${firstName} + ' ' + ${lastName}"></p>
         <button th:text="${btnText}" class="btn btn-primary"></button>
+
+        <div th:if="${firstName} == null">
+            <h1>Form</h1>
+            <form action="#" th:action="@{/index}" th:object="${nameForm}" method="post">
+                <p>First Name: <input type="text" th:field="*{firstName}" /></p>
+                <p>Last Name: <input type="text" th:field="*{lastName}" /></p>
+                <p><input type="submit" value="Submit" class="btn-primary btn"/></p>
+            </form>
+        </div>
     </div>
 
 </body>
