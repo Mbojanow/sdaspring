@@ -9,6 +9,7 @@ public class IndexController {
 
     @GetMapping(path = "/index")
     public String getIndex(final ModelMap modelMap) {
+        modelMap.addAttribute("btnText", "Click ME!");
         return "index";
     }
 }
