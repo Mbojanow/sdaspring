@@ -18,21 +18,21 @@ import java.time.LocalDateTime;
 @Builder
 public class Message {
 
-    @Null
+    @Null(message = "id has not to be provided")
     private Long id;
 
-    @NotNull
-    @Length(min = 3)
+    @NotNull(message = "consignor is a mandatory field")
+    @Length(min = 3, message = "consignor length has to be at least 3")
     @JsonProperty("consignor")
     private String from;
 
-    @NotNull
-    @Length(min = 3)
+    @NotNull(message = "recipent is a mandatory field")
+    @Length(min = 3, message = "recipent length has to be at least 3")
     @JsonProperty("recipent")
     private String to;
 
-    @NotNull
-    @Length(min = 1)
+    @NotNull(message = "message value has to be provided")
+    @Length(min = 1, message = "message value cannot be empty")
     private String value;
 
     private LocalDateTime sendDate;
