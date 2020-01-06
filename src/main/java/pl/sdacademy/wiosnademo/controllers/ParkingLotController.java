@@ -2,12 +2,12 @@ package pl.sdacademy.wiosnademo.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import pl.sdacademy.wiosnademo.domain.ParkingDetails;
 import pl.sdacademy.wiosnademo.domain.ParkingLot;
 import pl.sdacademy.wiosnademo.model.ParkingLots;
 import pl.sdacademy.wiosnademo.services.ParkingLotService;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -53,5 +53,10 @@ public class ParkingLotController {
     @PutMapping("/{id}")
     public ParkingLot update(@Valid @RequestBody final ParkingLot parkingLot, @PathVariable("id") final Long id) {
         return parkingLotService.update(parkingLot, id);
+    }
+
+    @PostMapping("/{id}/details")
+    public ParkingLot addDetails(@PathVariable("id") final Long parkingId, @Valid @RequestBody final ParkingDetails parkingDetails) {
+        return parkingLotService.createDetailsForParkingLot(parkingDetails, parkingId);
     }
 }

@@ -5,10 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.Nullable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -25,13 +24,20 @@ public class ParkingLot {
 
     @NotNull(message = "parking name is mandatory")
     @Length(min = 5, message = "parking name too short")
+    @Column(name = "parking_name")
     private String name;
 
     @NotNull(message = "address is mandatory")
+    @Column(name = "address")
     private String address;
 
     @Min(value = 1, message = "Parking must have positive number of places")
+    @Column(name = "places")
     private Long places;
+
+    @OneToOne
+    @JoinColumn(name = "details_id")
+    private ParkingDetails details;
 
     @JsonIgnore
     @AssertTrue(message = "address has to include street name and number")
