@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity(name = "parking_lots")
 @NoArgsConstructor
@@ -38,6 +39,10 @@ public class ParkingLot {
     @OneToOne
     @JoinColumn(name = "details_id")
     private ParkingDetails details;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "parkingLot")
+    private List<Reservation> reservations;
 
     @JsonIgnore
     @AssertTrue(message = "address has to include street name and number")
