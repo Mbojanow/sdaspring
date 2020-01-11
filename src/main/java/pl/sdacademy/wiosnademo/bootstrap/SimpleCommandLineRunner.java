@@ -1,5 +1,6 @@
 package pl.sdacademy.wiosnademo.bootstrap;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,8 @@ public class SimpleCommandLineRunner implements CommandLineRunner {
 
   private final ILogger iLogger;
 
-  public SimpleCommandLineRunner(final ILogger iLogger) {
+  // @Named - odpowiednik @Qualifier
+  public SimpleCommandLineRunner(/*@Qualifier("otherLogger")*/ final ILogger iLogger) {
     this.iLogger = iLogger;
   }
 

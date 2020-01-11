@@ -8,6 +8,7 @@ class WiosnaDemoApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("x");
 	}
 
 }
