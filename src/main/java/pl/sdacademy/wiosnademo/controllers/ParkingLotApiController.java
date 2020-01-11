@@ -14,11 +14,11 @@ import static java.util.Objects.isNull;
 
 @RestController
 @RequestMapping("/api/v1/parking-lots")
-public class ParkingLotController {
+public class ParkingLotApiController {
 
     private final ParkingLotService parkingLotService;
 
-    public ParkingLotController(final ParkingLotService parkingLotService) {
+    public ParkingLotApiController(final ParkingLotService parkingLotService) {
         this.parkingLotService = parkingLotService;
     }
 

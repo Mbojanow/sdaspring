@@ -11,11 +11,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
-public class ReservationController {
+public class ReservationApiController {
 
     private final ReservationService reservationService;
 
-    public ReservationController(final ReservationService reservationService) {
+    public ReservationApiController(final ReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
