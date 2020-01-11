@@ -1,5 +1,6 @@
 package pl.sdacademy.wiosnademo.repositories;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,9 @@ public class MessageRepository {
 
   public Message createMessage(final Message message) {
     message.setId(id++);
+    if (message.getSendDate() == null) {
+      message.setSendDate(LocalDateTime.now());
+    }
     messages.add(message);
     return message;
   }

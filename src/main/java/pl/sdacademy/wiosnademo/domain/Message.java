@@ -14,6 +14,7 @@ public class Message {
   private Long id;
   private String from;
   private String to;
+  private String value;
   private LocalDateTime sendDate;
 
   public boolean isInFuture() {
