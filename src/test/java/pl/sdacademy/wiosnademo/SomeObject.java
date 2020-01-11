@@ -1,5 +1,7 @@
 package pl.sdacademy.wiosnademo;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,8 @@ public class SomeObject {
 
   @JsonProperty("some_value")
   private String someValue;
+
+  private List<String> someStrings;
 
   @JsonIgnore
   public boolean isIdEven() {
