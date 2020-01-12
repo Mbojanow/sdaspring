@@ -2,6 +2,8 @@ package pl.sdacademy.wiosnademo.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +55,7 @@ public class MessagesController {
   @PostMapping
   //@RequestMapping(method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
-  public Message create(@RequestBody final Message message) {
+  public Message create(@Valid @RequestBody final Message message) {
     return messageRepository.createMessage(message);
   }
 
@@ -64,10 +66,10 @@ public class MessagesController {
     messageRepository.delete(id);
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<SimpleError> handleException(final Exception exp) {
-    return ResponseEntity.badRequest().body(new SimpleError(exp.getMessage()));
-  }
+//  @ExceptionHandler(Exception.class)
+////  public ResponseEntity<SimpleError> handleException(final Exception exp) {
+////    return ResponseEntity.badRequest().body(new SimpleError(exp.getMessage()));
+////  }
 
 //  @ExceptionHandler(Exception.class)
 //  @ResponseStatus(HttpStatus.BAD_REQUEST)
