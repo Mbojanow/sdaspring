@@ -9,9 +9,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 //@Configuration
 //@EnableGlobalMethodSecurity
 //        (jsr250Enabled = true, securedEnabled = true)
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(final HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/api/v1/parking-lots").permitAll()
+                .antMatchers("/api/dummy").authenticated()
+                .and()
+                .httpBasic();
+    }
 
-//    @Override
+    //    @Override
 //    protected void configure(final HttpSecurity http) throws Exception {
 //        http.authorizeRequests()
 //                .anyRequest().authenticated()
