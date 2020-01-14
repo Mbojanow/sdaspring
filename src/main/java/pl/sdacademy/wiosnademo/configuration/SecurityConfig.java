@@ -1,6 +1,7 @@
 package pl.sdacademy.wiosnademo.configuration;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,8 +16,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/api/v1/parking-lots").permitAll()
-                .antMatchers("/api/dummy").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/v1/parking-lots**", "/api/dummy").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/v1/parking-lots**", "/api/dummy").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/v1/parking-lots**", "/api/dummy").authenticated()
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic();
     }
