@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 //@Configuration
@@ -18,9 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UsersConfiguration usersConfiguration;
 
-    @Value("${pl.sdacademy.user}")
-    private String username;
-
     public SecurityConfig(final UsersConfiguration usersConfiguration) {
         this.usersConfiguration = usersConfiguration;
     }
@@ -29,10 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/v1/parking-lots**", "/api/dummy").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/v1/parking-lots**", "/api/dummy").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/api/v1/parking-lots**", "/api/dummy").authenticated()
-                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/**").hasRole("ADD_OR_MODIFY")
+                .antMatchers(HttpMethod.PUT, "/**").hasRole("ADD_OR_MODIFY")
+                .antMatchers(HttpMethod.PATCH, "/**").hasRole("ADD_OR_MODIFY")
+                .antMatchers(HttpMethod.DELETE, "/**").hasRole("REMOVE")
+                .antMatchers(HttpMethod.GET, "/**").hasRole("READ")
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
@@ -42,14 +41,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .passwordEncoder(passwordEncoder())
-                .withUser("user1").password(passwordEncoder().encode("admin")).authorities("USER1")
+                .withUser("user1").password("admin").roles("READ")
                 .and()
-                .withUser("user2").password(passwordEncoder().encode("admin")).roles("USER1");
+                .withUser("user2").password("admin").roles("READ", "ADD_OR_MODIFY")
+                .and()
+                .withUser("user3").password("admin").roles("READ", "ADD_OR_MODIFY", "REMOVE");
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
+        return NoOpPasswordEncoder.getInstance();
     }
 
     //    @Override
