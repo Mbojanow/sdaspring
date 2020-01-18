@@ -1,5 +1,6 @@
 package pl.sdacademy.wiosnademo.domain;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import javax.persistence.Column;
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
@@ -51,6 +53,9 @@ public class ParkingLot {
   @JoinColumn(name = "details_id")
   @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
   private ParkingLotDetails details;
+
+  @OneToMany(mappedBy = "parkingLot")
+  private List<Reservation> reservations;
 
   @AssertTrue
   @JsonIgnore
