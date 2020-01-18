@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "reservations")
+//@Entity(name = "reservations")
 public class Reservation {
 
   @Id
@@ -45,7 +45,6 @@ public class Reservation {
   private String carPlate;
 
   @ManyToOne
-  @JoinColumn(name = "p_id")
   private ParkingLot parkingLot;
 
   @JsonIgnore

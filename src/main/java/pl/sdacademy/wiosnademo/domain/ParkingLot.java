@@ -54,8 +54,9 @@ public class ParkingLot {
   @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
   private ParkingLotDetails details;
 
-  @OneToMany(mappedBy = "parkingLot")
-  private List<Reservation> reservations;
+//  @JsonIgnore
+//  @OneToMany(mappedBy = "parkingLot")
+//  private List<Reservation> reservations;
 
   @AssertTrue
   @JsonIgnore
