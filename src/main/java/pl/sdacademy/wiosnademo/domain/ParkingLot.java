@@ -12,6 +12,8 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,6 +49,7 @@ public class ParkingLot {
 
   @OneToOne
   @JoinColumn(name = "details_id")
+  @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
   private ParkingLotDetails details;
 
   @AssertTrue

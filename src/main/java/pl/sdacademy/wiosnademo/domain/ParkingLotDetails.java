@@ -38,7 +38,7 @@ public class ParkingLotDetails {
   @Column(name = "mobile_number")
   private String mobileNumber;
 
-  @Null
+  //@Null
   @JsonIgnore
   @OneToOne
   @JoinColumn(name = "parking_id")

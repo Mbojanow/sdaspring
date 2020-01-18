@@ -3,6 +3,7 @@ package pl.sdacademy.wiosnademo.controllers;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.sdacademy.wiosnademo.domain.ParkingLot;
 import pl.sdacademy.wiosnademo.model.ParkingLots;
 import pl.sdacademy.wiosnademo.services.ParkingLotService;
+
 
 @RestController // @Controller + @ResponseBody
 @RequestMapping("/api/parking-lots")
