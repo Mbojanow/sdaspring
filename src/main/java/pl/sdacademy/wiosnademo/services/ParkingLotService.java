@@ -35,8 +35,10 @@ public class ParkingLotService {
 
   private void throwIfParkingWithGivenNameExists(final String name) {
     parkingLotRepository.findByName(name)
-        .ifPresent(pl -> { throw new ParkingLotGenericException("Parking lot with name "
-            + name + " already exists");});
+        .ifPresent(pl -> {
+          throw new ParkingLotGenericException("Parking lot with name "
+              + name + " already exists");
+        });
   }
 
   public ParkingLot update(final Long id, final ParkingLot givenParkingLot) {
@@ -78,5 +80,10 @@ public class ParkingLotService {
       existingParkingLot.setPlaces(updatedParkingLotProperties.getPlaces());
     }
     return parkingLotRepository.update(existingParkingLot);
+  }
+
+  public ParkingLot findByName(final String name) {
+    return parkingLotRepository.findByName(name).orElseThrow(() ->
+        new ParkingLotNotFoundException("Parking lot with given name does not exist"));
   }
 }

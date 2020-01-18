@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -42,6 +44,10 @@ public class ParkingLot {
   @Min(1)
   @Column(name = "places")
   private Long places;
+
+  @OneToOne
+  @JoinColumn(name = "details_id")
+  private ParkingLotDetails details;
 
   @AssertTrue
   @JsonIgnore
