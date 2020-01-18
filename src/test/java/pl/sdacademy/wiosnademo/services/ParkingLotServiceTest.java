@@ -39,7 +39,7 @@ class ParkingLotServiceTest {
   @Test
   void shouldCreateNewParkingLot() {
     final String name = "dasihoeqw";
-    final ParkingLot parkingLotToCreate = new ParkingLot(null, name, "asd", 5L, null);
+    final ParkingLot parkingLotToCreate = new ParkingLot(null, name, "asd", 5L, null, null);
     final ParkingLot createdParkingLot = new ParkingLot();
     createdParkingLot.setName(name);
     //import static org.mockito.Mockito.when;

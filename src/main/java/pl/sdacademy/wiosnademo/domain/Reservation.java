@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Entity(name = "reservations")
+@Entity(name = "reservations")
 public class Reservation {
 
   @Id
@@ -33,11 +33,11 @@ public class Reservation {
 
   @Future
   @NotNull
-  @Column(name = "from")
+  @Column(name = "reservation_from")
   private Date from;
 
   @NotNull
-  @Column(name = "to")
+  @Column(name = "reservation_to")
   private Date to;
 
   @NotNull
@@ -45,6 +45,7 @@ public class Reservation {
   private String carPlate;
 
   @ManyToOne
+  @JoinColumn(name = "parking_id")
   private ParkingLot parkingLot;
 
   @JsonIgnore

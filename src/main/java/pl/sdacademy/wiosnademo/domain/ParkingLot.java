@@ -1,27 +1,18 @@
 package pl.sdacademy.wiosnademo.domain;
 
-import java.util.List;
-import java.util.stream.Stream;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.validator.constraints.Length;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.*;
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity(name = "parking_lots")
 @NoArgsConstructor
@@ -54,9 +45,9 @@ public class ParkingLot {
   @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
   private ParkingLotDetails details;
 
-//  @JsonIgnore
-//  @OneToMany(mappedBy = "parkingLot")
-//  private List<Reservation> reservations;
+  @JsonIgnore
+  @OneToMany(mappedBy = "parkingLot")
+  private List<Reservation> reservations;
 
   @AssertTrue
   @JsonIgnore

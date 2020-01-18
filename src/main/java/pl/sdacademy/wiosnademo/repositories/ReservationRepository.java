@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import pl.sdacademy.wiosnademo.domain.Reservation;
 
-public interface ReservationRepository /*extends CrudRepository<Reservation, Long>*/ {
+public interface ReservationRepository extends CrudRepository<Reservation, Long> {
 
   @Query("SELECT COUNT(r) FROM reservations r WHERE r.from <= :date AND r.to > :date")
   Long countReservationsWithTimesBetweenFrom(@Param("date") final Date date);

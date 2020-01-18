@@ -20,7 +20,8 @@ public class CustomSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .httpBasic()
         .and()
-        .csrf().disable();
+        .csrf().disable()
+            .headers().frameOptions().disable();
         //.anyRequest().permitAll();
   }
 }
