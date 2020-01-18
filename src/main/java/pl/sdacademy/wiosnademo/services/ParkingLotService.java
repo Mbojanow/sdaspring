@@ -1,5 +1,7 @@
 package pl.sdacademy.wiosnademo.services;
 
+import static java.util.Objects.nonNull;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,9 +17,15 @@ import pl.sdacademy.wiosnademo.repositories.ParkingLotRepository;
 public class ParkingLotService {
 
   private final ParkingLotRepository parkingLotRepository;
+  private final ParkingLotCommonValidator parkingLotCommonValidator;
+  private final ParkingLotPartialUpdateValidator parkingLotPartialUpdateValidator;
 
-  public ParkingLotService(final ParkingLotRepository parkingLotRepository) {
+  public ParkingLotService(final ParkingLotRepository parkingLotRepository,
+                           final ParkingLotCommonValidator parkingLotCommonValidator,
+                           final ParkingLotPartialUpdateValidator parkingLotPartialUpdateValidator) {
     this.parkingLotRepository = parkingLotRepository;
+    this.parkingLotCommonValidator = parkingLotCommonValidator;
+    this.parkingLotPartialUpdateValidator = parkingLotPartialUpdateValidator;
   }
 
   public ParkingLot create(final ParkingLot parkingLot) {
@@ -32,10 +40,7 @@ public class ParkingLotService {
   }
 
   public ParkingLot update(final Long id, final ParkingLot givenParkingLot) {
-    final ParkingLot parkingLotToUpdate = findExistingById(id);
-    if (!parkingLotToUpdate.getName().equals(givenParkingLot.getName())) {
-      throwIfParkingWithGivenNameExists(givenParkingLot.getName());
-    }
+    parkingLotCommonValidator.validate(id, givenParkingLot);
     givenParkingLot.setId(id);
     return parkingLotRepository.update(givenParkingLot);
   }
@@ -56,5 +61,22 @@ public class ParkingLotService {
   public void deleteById(final Long id) {
     findExistingById(id);
     parkingLotRepository.delete(id);
+  }
+
+  public ParkingLot updatePartially(final Long id, final ParkingLot updatedParkingLotProperties) {
+    final ParkingLot existingParkingLot = parkingLotPartialUpdateValidator
+        .validate(id, updatedParkingLotProperties);
+    if (nonNull(updatedParkingLotProperties.getName())) {
+      existingParkingLot.setName(updatedParkingLotProperties.getName());
+    }
+
+    if (nonNull(updatedParkingLotProperties.getAddress())) {
+      existingParkingLot.setAddress(updatedParkingLotProperties.getAddress());
+    }
+
+    if (nonNull(updatedParkingLotProperties.getPlaces())) {
+      existingParkingLot.setPlaces(updatedParkingLotProperties.getPlaces());
+    }
+    return parkingLotRepository.update(existingParkingLot);
   }
 }
