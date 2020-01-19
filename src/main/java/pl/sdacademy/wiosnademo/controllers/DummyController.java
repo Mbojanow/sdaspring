@@ -1,10 +1,15 @@
 package pl.sdacademy.wiosnademo.controllers;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.sdacademy.wiosnademo.model.Dummy;
@@ -14,8 +19,10 @@ import pl.sdacademy.wiosnademo.model.Dummy;
 public class DummyController {
 
   @GetMapping
-  public Dummy getDummy() {
-    return new Dummy("asd");
+  public ResponseEntity<Dummy> getDummy() {
+    //return new Dummy("asd");
+    //ResponseEntity.badRequest().body(...)
+    return ResponseEntity.ok(new Dummy("asd"));
   }
 
   @PostMapping
@@ -29,6 +36,7 @@ public class DummyController {
   }
 
   @DeleteMapping
-  public void delete() {
+  public void delete(final HttpServletResponse response) {
+    response.setStatus(200);
   }
 }

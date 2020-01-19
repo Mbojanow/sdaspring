@@ -11,7 +11,7 @@ public class CustomSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/api/dummy", "/api/parking-lots**").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/dummy", "/api/parking-lots/**").permitAll()
         .antMatchers(HttpMethod.POST, "/api/dummy", "/api/parking-lots**").authenticated()
         .antMatchers(HttpMethod.PUT, "/api/dummy", "/api/parking-lots**").authenticated()
         .antMatchers(HttpMethod.PATCH, "/api/dummy", "/api/parking-lots**").authenticated()
