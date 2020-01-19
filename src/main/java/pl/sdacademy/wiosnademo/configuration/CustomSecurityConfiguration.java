@@ -1,14 +1,23 @@
 package pl.sdacademy.wiosnademo.configuration;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
 public class CustomSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+  private static final Map<Integer, List<String>> USER_INDEX_TO_ROLES = Map.of(0, List.of("READ"),
+      1, List.of("READ", "ADD_OR_MODIFY"),
+      2, List.of("READ", "ADD_OR_MODIFY", "REMOVE"));
 
   private final UsersConfiguration usersConfiguration;
 
@@ -25,11 +34,11 @@ public class CustomSecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
     http.authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/api/dummy", "/api/parking-lots/**").permitAll()
-        .antMatchers(HttpMethod.POST, "/api/dummy", "/api/parking-lots**").authenticated()
-        .antMatchers(HttpMethod.PUT, "/api/dummy", "/api/parking-lots**").authenticated()
-        .antMatchers(HttpMethod.PATCH, "/api/dummy", "/api/parking-lots**").authenticated()
-        .antMatchers(HttpMethod.DELETE, "/api/dummy", "/api/parking-lots**").authenticated()
+        .antMatchers(HttpMethod.GET, "/api/parking-lots/**").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/parking-lots**").hasAuthority("ROLE_READ")
+        .antMatchers(HttpMethod.PUT, "/api/parking-lots**").hasRole("ADD_OR_MODIFY")
+        .antMatchers(HttpMethod.PATCH, "/api/parking-lots**").hasRole("ADD_OR_MODIFY")
+        .antMatchers(HttpMethod.DELETE, "/api/parking-lots**").hasRole("REMOVE")
         .anyRequest().permitAll()
         .and()
         .httpBasic()
@@ -46,7 +55,8 @@ public class CustomSecurityConfiguration extends WebSecurityConfigurerAdapter {
     for (int idx = 0; idx < usersConfiguration.getUsernames().size(); idx++) {
       builder.withUser(usersConfiguration.getUsernames().get(idx))
           .password("{noop}" + usersConfiguration.getPasswords().get(idx))
-          .roles("ADMIN")
+          // hak - 0 user - READ, 1 user - ADD_OF_MODIFY, 2 user - REMOVE, 3 user - boom
+          .roles(USER_INDEX_TO_ROLES.get(idx).get(idx))
           .and();
     }
 //        .withUser(usersConfiguration.getUserA())
