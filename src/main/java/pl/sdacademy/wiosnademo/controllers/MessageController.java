@@ -3,6 +3,7 @@ package pl.sdacademy.wiosnademo.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.sdacademy.wiosnademo.domain.ErrorMessage;
 import pl.sdacademy.wiosnademo.domain.Message;
 import pl.sdacademy.wiosnademo.domain.Messages;
 import pl.sdacademy.wiosnademo.repostories.MessageRepository;
@@ -38,7 +40,8 @@ public class MessageController {
   //@RequestMapping(path = "/{id}", method = RequestMethod.GET)
   @GetMapping(path = "/{id}")
   public Message getMessageById(@PathVariable(name = "id") final Long id) {
-    return messageRepository.findById(id).orElse(null);
+    return messageRepository.findById(id)
+        .orElseThrow();
   }
 
   //@RequestMapping(method = RequestMethod.POST)
@@ -54,5 +57,11 @@ public class MessageController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteById(@PathVariable(name = "id") final Long id) {
     messageRepository.deleteById(id);
+  }
+
+  @ExceptionHandler(Exception.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ErrorMessage handleGenericException(final Exception exp) {
+    return new ErrorMessage(exp.getMessage());
   }
 }
