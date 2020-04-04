@@ -1,7 +1,10 @@
 package pl.sdacademy.wiosnademo.controllers;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +22,7 @@ import pl.sdacademy.wiosnademo.repostories.MessageRepository;
 
 //@Controller
 //@ResponseBody
-@RestController
+@RestController // = @Controller + @ResponseBody
 @RequestMapping(value = "/api/messages",
     consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, // Content-Type
     produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }) // Accept
@@ -57,11 +60,5 @@ public class MessageController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteById(@PathVariable(name = "id") final Long id) {
     messageRepository.deleteById(id);
-  }
-
-  @ExceptionHandler(Exception.class)
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public ErrorMessage handleGenericException(final Exception exp) {
-    return new ErrorMessage(exp.getMessage());
   }
 }
