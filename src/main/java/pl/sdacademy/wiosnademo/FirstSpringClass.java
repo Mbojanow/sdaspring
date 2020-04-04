@@ -1,19 +1,22 @@
 package pl.sdacademy.wiosnademo;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import pl.sdacademy.OutsideOfContextExample;
 
 @Component
 @Slf4j
 public class FirstSpringClass implements CommandLineRunner {
 
   private final SdaLogger sdaLogger;
+  private final OutsideOfContextExample outsideOfContextExample;
 
-  public FirstSpringClass(/*@Qualifier("simpleLogger")*/ final SdaLogger sdaLogger) {
+  public FirstSpringClass(/*@Qualifier("simpleLogger")*/ final SdaLogger sdaLogger,
+                                                         final OutsideOfContextExample outsideOfContextExample) {
     this.sdaLogger = sdaLogger;
+    this.outsideOfContextExample = outsideOfContextExample;
   }
 
   @Override
