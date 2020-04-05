@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,7 @@ public class ParkingLot {
   @Min(1)
   private Long places;
 
+  @JsonIgnore
   @AssertTrue
   public boolean isAddressValid() {
     if (address == null) {

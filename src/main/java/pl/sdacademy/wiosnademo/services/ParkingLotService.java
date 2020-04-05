@@ -3,10 +3,12 @@ package pl.sdacademy.wiosnademo.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import pl.sdacademy.wiosnademo.domain.ParkingLot;
 import pl.sdacademy.wiosnademo.repositories.ParkingLotRepository;
 
+@Transactional
 @Service
 public class ParkingLotService {
 
@@ -41,7 +43,7 @@ public class ParkingLotService {
   public ParkingLot update(final Long id, final ParkingLot toUpdate) {
     final ParkingLot existingParking = getById(id);
     if (!toUpdate.getName().equals(existingParking.getName())) {
-      validateParkingWithNameDoesNotExist(existingParking.getName());
+      validateParkingWithNameDoesNotExist(toUpdate.getName());
     }
 
     existingParking.setName(toUpdate.getName());

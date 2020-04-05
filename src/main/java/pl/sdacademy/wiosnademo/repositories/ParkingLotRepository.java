@@ -44,8 +44,15 @@ public class ParkingLotRepository {
   }
 
   public ParkingLot findByName(final String name) {
-    return entityManager.createQuery("SELECT pl FROM parking_lots pl WHERE pl.name = :name", ParkingLot.class)
+    final List<ParkingLot> results = entityManager
+        .createQuery("SELECT pl FROM parking_lots pl WHERE pl.name = :name", ParkingLot.class)
         .setParameter("name", name)
-        .getSingleResult();
+        .getResultList();
+    if (results.isEmpty()) {
+      return null;
+    }
+    return results.get(0);
+    // .getSingleResult(); // wyrzuca wyjatek jezeli nie znajdzie rekordku
   }
 }
+// A -> B, B potrzebuje transacji, @Transactional A ->
