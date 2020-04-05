@@ -5,6 +5,8 @@ import java.util.stream.Stream;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -55,5 +57,9 @@ public class ParkingLot {
     return splitAddress[1].chars() // IntStream -> Stream -> allMatch
         .allMatch(Character::isDigit); // x -> A.Y(x) == A::Y
   }
+
+  @OneToOne
+  @JoinColumn(name = "details_id")
+  private ParkingDetails parkingDetails;
 
 }
