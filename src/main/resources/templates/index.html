@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Hello From First Page</title>
@@ -9,6 +9,11 @@
   <div class="main">
     <p>Hi</p>
     <p>From out first page</p>
+    <button class="btn btn-primary" th:text="${btnText}"></button>
   </div>
 </body>
+
+<link rel="stylesheet" href="/webjars/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
 </html>
