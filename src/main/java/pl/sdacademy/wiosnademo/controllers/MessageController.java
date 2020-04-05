@@ -2,6 +2,8 @@ package pl.sdacademy.wiosnademo.controllers;
 
 import java.util.NoSuchElementException;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +52,7 @@ public class MessageController {
   //@RequestMapping(method = RequestMethod.POST)
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Message createMessage(@RequestBody final Message message) {
+  public Message createMessage(@RequestBody @Valid final Message message) {
     return messageRepository.createMessage(message);
   }
 

@@ -1,5 +1,7 @@
 package pl.sdacademy.wiosnademo.domain;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,4 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ErrorMessage {
   private String message;
+  private List<String> details;
 }
