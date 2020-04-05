@@ -1,12 +1,23 @@
 package pl.sdacademy.wiosnademo.services;
 
+import lombok.Getter;
+
+@Getter
 public class ParkingLotException extends RuntimeException {
+
+  private Integer status;
+
   public ParkingLotException() {
     super();
   }
 
   public ParkingLotException(final String message) {
     super(message);
+  }
+
+  public ParkingLotException(final String message, final Integer status) {
+    super(message);
+    this.status = status;
   }
 
   public ParkingLotException(final String message, final Throwable cause) {

@@ -20,7 +20,7 @@ public class ParkingLotService {
 
   public ParkingLot getById(final Long id) {
     return parkingLotRepository.findById(id)
-        .orElseThrow(() -> new ParkingLotException("Parking lot with id " + id + " not found"));
+        .orElseThrow(() -> new ParkingLotException("Parking lot with id " + id + " not found", 404));
   }
 
   public List<ParkingLot> getAll() {
