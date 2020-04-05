@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.sdacademy.wiosnademo.domain.ParkingDetails;
 import pl.sdacademy.wiosnademo.domain.ParkingLot;
+import pl.sdacademy.wiosnademo.services.ParkingLotDetailsService;
 import pl.sdacademy.wiosnademo.services.ParkingLotService;
 
 @RestController
@@ -23,9 +25,12 @@ import pl.sdacademy.wiosnademo.services.ParkingLotService;
 public class ParkingLotController {
 
   private final ParkingLotService parkingLotService;
+  private final ParkingLotDetailsService parkingLotDetailsService;
 
-  public ParkingLotController(final ParkingLotService parkingLotService) {
+  public ParkingLotController(final ParkingLotService parkingLotService,
+                              final ParkingLotDetailsService parkingLotDetailsService) {
     this.parkingLotService = parkingLotService;
+    this.parkingLotDetailsService = parkingLotDetailsService;
   }
 
   @GetMapping
@@ -54,5 +59,12 @@ public class ParkingLotController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteParkingLot(@PathVariable final Long id) {
     parkingLotService.deleteParking(id);
+  }
+
+  @PostMapping("/{id}/details")
+  @ResponseStatus(HttpStatus.CREATED)
+  public ParkingLot addDetailsToParking(@RequestBody @Valid final ParkingDetails parkingDetails,
+                                        @PathVariable final Long id) {
+    return parkingLotDetailsService.addDetailsToParking(id, parkingDetails);
   }
 }

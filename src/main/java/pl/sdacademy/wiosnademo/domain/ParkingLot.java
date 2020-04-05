@@ -2,6 +2,7 @@ package pl.sdacademy.wiosnademo.domain;
 
 import java.util.stream.Stream;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -58,7 +59,7 @@ public class ParkingLot {
         .allMatch(Character::isDigit); // x -> A.Y(x) == A::Y
   }
 
-  @OneToOne
+  @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinColumn(name = "details_id")
   private ParkingDetails parkingDetails;
 

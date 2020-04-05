@@ -32,8 +32,11 @@ public class ParkingLotDetailsService {
     parkingDetailsRepository.findByPhoneNumber(parkingDetails.getPhoneNumber())
         .ifPresent(details -> { throw new ParkingLotException("Details with given phone already exist"); });
 
-    final ParkingDetails savedParkingDetails = parkingDetailsRepository.save(parkingDetails);
-    parkingLot.setParkingDetails(savedParkingDetails);
+    // musimy zapisywac zależna encje jeżeli nie wykorzystujemy kaskad
+    //final ParkingDetails savedParkingDetails = parkingDetailsRepository.save(parkingDetails);
+
+    parkingDetails.setParkingLot(parkingLot);
+    parkingLot.setParkingDetails(parkingDetails);
     parkingLotRepository.update(parkingLot);
     return parkingLot;
   }
