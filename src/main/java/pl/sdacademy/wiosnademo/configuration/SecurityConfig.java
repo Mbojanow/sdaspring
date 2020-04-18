@@ -5,9 +5,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
+//@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   /* WYKORZYSTANIE @Value
@@ -62,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     for (int idx = 0; idx < userConfigurationOnLists.getUsernames().size(); idx++) {
       configurer.withUser(userConfigurationOnLists.getUsernames().get(idx))
           .password(userConfigurationOnLists.getPasswords().get(idx))
-          .roles("ADMIN");
+          .roles("ADMIN"); // authority ROLE_ADMIN
       if (userConfigurationOnLists.getUsernames().size() != (idx + 1)) {
         configurer.and();
       }
