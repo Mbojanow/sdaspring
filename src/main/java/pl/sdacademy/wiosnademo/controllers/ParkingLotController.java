@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,8 @@ import pl.sdacademy.wiosnademo.services.ParkingLotService;
 
 @RestController
 @RequestMapping(path = "/api/parking-lots")
+// wymagana jedna z ról aby dostać się do jakiegokolwiek endpointy w tym kontrolerze
+@Secured({"ROLE_READ", "ROLE_ADD_OR_MODIFY"})
 public class ParkingLotController {
 
   private final ParkingLotService parkingLotService;
