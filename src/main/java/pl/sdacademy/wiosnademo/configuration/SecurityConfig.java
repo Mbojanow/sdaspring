@@ -3,6 +3,7 @@ package pl.sdacademy.wiosnademo.configuration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -24,9 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   */
 
   private final UsersConfiguration usersConfiguration;
+  private final UserConfigurationOnLists userConfigurationOnLists;
 
-  public SecurityConfig(final UsersConfiguration usersConfiguration) {
+  public SecurityConfig(final UsersConfiguration usersConfiguration,
+                        final UserConfigurationOnLists userConfigurationOnLists) {
     this.usersConfiguration = usersConfiguration;
+    this.userConfigurationOnLists = userConfigurationOnLists;
   }
 
 
@@ -52,12 +56,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication()
-        .withUser(usersConfiguration.getUserA()).password(usersConfiguration.getPasswordA()).roles("ADMIN")
-        .and()
-        .withUser(usersConfiguration.getUserB()).password(usersConfiguration.getPasswordB()).roles("ADMIN")
-        .and()
-        .withUser(usersConfiguration.getUserC()).password(usersConfiguration.getPasswordC()).roles("ADMIN");
+    //userConfigurationOnLists - wszystkich uzytkownikow i hasła z tej listy
+    final InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder> configurer = auth
+        .inMemoryAuthentication();
+    for (int idx = 0; idx < userConfigurationOnLists.getUsernames().size(); idx++) {
+      configurer.withUser(userConfigurationOnLists.getUsernames().get(idx))
+          .password(userConfigurationOnLists.getPasswords().get(idx))
+          .roles("ADMIN");
+      if (userConfigurationOnLists.getUsernames().size() != (idx + 1)) {
+        configurer.and();
+      }
+    }
+
+
+//    auth.inMemoryAuthentication()
+//        .withUser(usersConfiguration.getUserA()).password(usersConfiguration.getPasswordA()).roles("ADMIN")
+//        .and()
+//        .withUser(usersConfiguration.getUserB()).password(usersConfiguration.getPasswordB()).roles("ADMIN")
+//        .and()
+//        .withUser(usersConfiguration.getUserC()).password(usersConfiguration.getPasswordC()).roles("ADMIN");
   }
 
 //  @Bean
