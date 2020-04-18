@@ -14,6 +14,7 @@ public class GenericExceptionHandler {
   @ExceptionHandler(ParkingLotException.class)
   public ResponseEntity<String> handleParkingLotException(final ParkingLotException exp) {
     return ResponseEntity
+        // wyższy priorytet niż @ResponseStatus
         .status(exp.getStatus() != null ? exp.getStatus() : HttpStatus.BAD_REQUEST.value())
         .body(exp.getMessage());
   }
