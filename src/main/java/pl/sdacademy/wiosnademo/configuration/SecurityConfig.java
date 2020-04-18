@@ -1,16 +1,34 @@
 package pl.sdacademy.wiosnademo.configuration;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  /* WYKORZYSTANIE @Value
+  //@Value("${pl.sdacademy.user.name:user1}")
+  private String username;
+
+  //@Value("${pl.sdacademy.user.password}")
+  private String password;
+
+  public SecurityConfig(@Value("${pl.sdacademy.user.name:user1}") final String username,
+                        @Value("${pl.sdacademy.user.password}") final String password) {
+    this.username = username;
+    this.password = password;
+  }
+  */
+
+  private final UsersConfiguration usersConfiguration;
+
+  public SecurityConfig(final UsersConfiguration usersConfiguration) {
+    this.usersConfiguration = usersConfiguration;
+  }
+
 
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
@@ -35,11 +53,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAuthentication()
-        .withUser("user1").password("{noop}admin").roles("ADMIN")
+        .withUser(usersConfiguration.getUserA()).password(usersConfiguration.getPasswordA()).roles("ADMIN")
         .and()
-        .withUser("user2").password("{noop}admin").roles("ADMIN")
+        .withUser(usersConfiguration.getUserB()).password(usersConfiguration.getPasswordB()).roles("ADMIN")
         .and()
-        .withUser("user3").password("{noop}admin").roles("ADMIN");
+        .withUser(usersConfiguration.getUserC()).password(usersConfiguration.getPasswordC()).roles("ADMIN");
   }
 
 //  @Bean
