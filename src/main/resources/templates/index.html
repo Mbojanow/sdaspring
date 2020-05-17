@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>First Page</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <div class="main">
+    <p th:text="'Hello ' + ${fn} + ' ' + ${ln}"
+       th:unless="${fn} == null and ${ln} == null"></p>
+
+    <button class="btn btn-primary" th:text="${btnText}"></button>
+
+    <div th:if="${fn} == null and ${ln} == null">
+      <form method="post" th:action="@{/index}" th:object="${nameForm}">
+
+        <label for="fn" th:text="#{first.name.label}"/>
+        <input id="fn" type="text" th:field="*{firstName}">
+
+        <label for="ln" th:text="#{last.name.label}"/>
+        <input id="ln" type="text" th:field="*{lastName}">
+
+        <button class="btn btn-primary" type="submit">Save name</button>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+
+<script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</html>

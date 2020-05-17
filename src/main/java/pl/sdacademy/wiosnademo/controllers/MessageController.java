@@ -2,6 +2,8 @@ package pl.sdacademy.wiosnademo.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +56,7 @@ public class MessageController {
   //@ResponseBody
   //@RequestMapping(method = RequestMethod.POST)
   @PostMapping
-  public Message createMessage(@RequestBody final Message message) {
+  public Message createMessage(@Valid @RequestBody final Message message) {
     return messageRepository.create(message);
   }
 
