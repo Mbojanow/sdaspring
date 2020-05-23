@@ -39,3 +39,17 @@
     padding: 1rem;
     border: 1px solid darkblue;
 }
+
+.user-create-form-container {
+    font-size: 1.5rem;
+}
+
+.create-form-field {
+    padding: 1rem;
+}
+
+.user-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
