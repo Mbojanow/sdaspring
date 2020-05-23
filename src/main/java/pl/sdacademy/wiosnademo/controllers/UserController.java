@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String handleCreateForm(@ModelAttribute("userForm") final UserForm userForm) {
+    public String handleCreateForm(@ModelAttribute("userForm") final UserForm userForm, ModelMap modelMap) {
         users.add(new User(userForm.getUsername(), userForm.getEmail(), userForm.getPassword(), Status.ACTIVE));
         return "redirect:/users";
     }
