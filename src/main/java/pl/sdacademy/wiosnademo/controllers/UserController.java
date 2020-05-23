@@ -3,10 +3,7 @@ package pl.sdacademy.wiosnademo.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import pl.sdacademy.wiosnademo.Status;
 import pl.sdacademy.wiosnademo.User;
 import pl.sdacademy.wiosnademo.UserForm;
@@ -49,5 +46,10 @@ public class UserController {
             throw new RuntimeException();
         }
         return "redirect:/users";
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String someError(final RuntimeException exp) {
+        return "error";
     }
 }
