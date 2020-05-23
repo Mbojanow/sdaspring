@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.lang.Nullable;
 
 import pl.sdacademy.wiosnademo.domain.ParkingDetails;
@@ -20,4 +21,7 @@ public interface ParkingDetailsRepository extends JpaRepository<ParkingDetails, 
 
   @Query("SELECT pd FROM parking_details pd WHERE pd.managerName IS NULL")
   List<ParkingDetails> findAllByUnassingedManagerName();
+
+  @Query("SELECT pd FROM parking_details pd WHERE pd.managerName LIKE :managerName")
+  List<ParkingDetails> customQueryFindByManagerNameLike(@Param("managerName") final String managerName);
 }
