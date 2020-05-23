@@ -2,6 +2,7 @@ package pl.sdacademy.wiosnademo.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import pl.sdacademy.wiosnademo.Status;
 import pl.sdacademy.wiosnademo.User;
 import pl.sdacademy.wiosnademo.UserForm;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +40,14 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String handleCreateForm(@ModelAttribute("userForm") final UserForm userForm, ModelMap modelMap) {
+    public String handleCreateForm(@Valid @ModelAttribute("userForm") final UserForm userForm, final Errors errors) {
         users.add(new User(userForm.getUsername(), userForm.getEmail(), userForm.getPassword(), Status.ACTIVE));
+        if (errors.hasErrors()) {
+            return "/users-create";
+        }
+        if (1 == 1) {
+            throw new RuntimeException();
+        }
         return "redirect:/users";
     }
 }
