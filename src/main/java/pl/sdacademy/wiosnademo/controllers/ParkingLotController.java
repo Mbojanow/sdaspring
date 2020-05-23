@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.sdacademy.wiosnademo.domain.ParkingDetails;
 import pl.sdacademy.wiosnademo.domain.ParkingLot;
+import pl.sdacademy.wiosnademo.services.ParkingDetailsService;
 import pl.sdacademy.wiosnademo.services.ParkingLotService;
 
 @RestController
@@ -23,9 +25,11 @@ import pl.sdacademy.wiosnademo.services.ParkingLotService;
 public class ParkingLotController {
 
   private final ParkingLotService parkingLotService;
+  private final ParkingDetailsService parkingDetailsService;
 
-  public ParkingLotController(final ParkingLotService parkingLotService) {
+  public ParkingLotController(final ParkingLotService parkingLotService, final ParkingDetailsService parkingDetailsService) {
     this.parkingLotService = parkingLotService;
+    this.parkingDetailsService = parkingDetailsService;
   }
 
   @PostMapping
@@ -55,6 +59,13 @@ public class ParkingLotController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete(@PathVariable final Long id) {
     parkingLotService.deleteById(id);
+  }
+
+  @PostMapping
+  @RequestMapping("/{id}/details")
+  @ResponseStatus(HttpStatus.CREATED)
+  public ParkingLot addDetails(@Valid @RequestBody final ParkingDetails parkingDetails, @PathVariable final Long id) {
+    return parkingDetailsService.addDetailsToParking(parkingDetails, id);
   }
 
   // PatchMapping ? co z walidacja?

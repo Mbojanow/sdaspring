@@ -4,10 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.validator.constraints.Length;
 
 import lombok.AllArgsConstructor;
@@ -36,6 +39,10 @@ public class ParkingLot {
   @Column(name = "places")
   private Integer places;
 
+  @OneToOne
+  @JoinColumn(name = "details_id")
+  private ParkingDetails parkingDetails;
+
   @AssertTrue
   public boolean isAddressValid() {
     if (address == null) {
@@ -49,5 +56,10 @@ public class ParkingLot {
 
     return splitAddress[1].chars()
         .allMatch(Character::isDigit);
+  }
+
+  public void setParkingDetails(final ParkingDetails parkingDetails) {
+    parkingDetails.setParkingLot(this);
+    this.parkingDetails = parkingDetails;
   }
 }
