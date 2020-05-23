@@ -1,10 +1,8 @@
-package pl.sdacademy.wiosnademo.domain;
+package pl.sdacademy.wiosnademo.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,19 +12,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "toys")
-public class Toy {
+public class ToyDto {
 
-  @Id
-  @GeneratedValue
   private Long id;
 
-  @Column(name = "name")
+  @NotNull
   private String name;
 
+  @JsonProperty("material")
   private String material;
-
   private String producer;
-
   private Long age;
 }

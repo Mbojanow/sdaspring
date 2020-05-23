@@ -4,10 +4,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
+@EnableGlobalMethodSecurity(securedEnabled = true) // to pozwala na korzystanie z adnotacji @Secured w aplikacji
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //  @Value("${sda.security.username:andrzej}") // po dwukropku - wartość domyślna
@@ -29,10 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // ** - n znaków do końca URLa
 //        .antMatchers("/api/dummy**").authenticated()
 //        .antMatchers("/api/parking-lots**").permitAll()
-        .antMatchers(HttpMethod.POST, "/**").authenticated()
-        .antMatchers(HttpMethod.PUT, "/**").authenticated()
-        .antMatchers(HttpMethod.DELETE, "/**").authenticated()
-        .antMatchers(HttpMethod.GET, "/**").permitAll()
+//        .antMatchers(HttpMethod.POST, "/**").hasRole("ADD_OR_MODIFY") //. hasAuthority("ROLE_READ")
+//        .antMatchers(HttpMethod.PUT, "/**").hasRole("ADD_OR_MODIFY")
+//        .antMatchers(HttpMethod.DELETE, "/**").hasRole("REMOVE")
+//        .antMatchers(HttpMethod.GET, "/**").hasRole("READ")
+        .antMatchers("/**").authenticated() // dwie ** -> do końca stringa
         .anyRequest().permitAll()
         .and()
         .httpBasic()
@@ -47,11 +50,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .inMemoryAuthentication();
     int index = 0;
     for (final var entry : usersConfigOnMap.getCredentials().entrySet()) {
-      builder.withUser(entry.getKey()).password("{noop}" + entry.getValue()).roles("ADMIN");
+      builder.withUser(entry.getKey()).password("{noop}" + entry.getValue()).roles(calculateRole(index));
       if (++index != usersConfigOnMap.getCredentials().size()) {
         builder.and();
       }
     }
+  }
+
+  private String calculateRole(final int index) {
+    if (index % 3 == 0) {
+      return "READ";
+    }
+    if (index % 3 == 1) {
+      return "ADD_OR_MODIFY";
+    }
+    return "REMOVE";
   }
 
 //  @Bean
