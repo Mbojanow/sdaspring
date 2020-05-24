@@ -1,11 +1,13 @@
 package pl.sdacademy.wiosnademo.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -45,5 +47,5 @@ public class User {
   @JoinTable(name = "users_to_roles",
     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "username"),
     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "name"))
-  private List<Role> roles;
+  private List<Role> roles = new ArrayList<>();
 }
