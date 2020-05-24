@@ -29,11 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .logout();
   }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
   // zamiast configure z przeciążeniem auth -> wybieramy skad pochodza użytkownicy
   @Override
   public UserDetailsService userDetailsServiceBean() throws Exception {
