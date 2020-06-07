@@ -3,11 +3,9 @@ package pl.sdacademy.wiosnademo.listeners;
 import java.util.Optional;
 
 import javax.jms.JMSException;
-import javax.jms.ObjectMessage;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -15,8 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import pl.sdacademy.wiosnademo.config.Queues;
+import pl.sdacademy.wiosnademo.domain.MessagesCounter;
 import pl.sdacademy.wiosnademo.domain.PartsStock;
 import pl.sdacademy.wiosnademo.model.PartsStockDto;
+import pl.sdacademy.wiosnademo.repositories.MessagesCounterRepository;
 import pl.sdacademy.wiosnademo.repositories.PartsStockRepository;
 
 @Component
@@ -24,10 +24,13 @@ public class PartsStockListener {
 
   private final JmsTemplate jmsTemplate;
   private final PartsStockRepository partsStockRepository;
+  private final MessagesCounterRepository messagesCounterRepository;
 
-  public PartsStockListener(final JmsTemplate jmsTemplate, final PartsStockRepository partsStockRepository) {
+  public PartsStockListener(final JmsTemplate jmsTemplate, final PartsStockRepository partsStockRepository,
+                            final MessagesCounterRepository messagesCounterRepository) {
     this.jmsTemplate = jmsTemplate;
     this.partsStockRepository = partsStockRepository;
+    this.messagesCounterRepository = messagesCounterRepository;
   }
 
   @Transactional
@@ -54,5 +57,15 @@ public class PartsStockListener {
 //    jmsTemplate.send(objectMessage.getJMSReplyTo(), session ->
 //        session.createTextMessage("New stock count for " + updatedPartsStock.getName()
 //            + " is " + updatedPartsStock.getStock()));
+  }
+
+
+  @Transactional
+  @JmsListener(destination = Queues.PARTS_STOCK)
+  public void handleMessageCountIncrement() {
+    final MessagesCounter messagesCounter = messagesCounterRepository.getOne(1L);
+    messagesCounter.setCounter(messagesCounter.getCounter() + 1);
+    messagesCounterRepository.save(messagesCounter);
+    System.out.println("New count is " + messagesCounter.getCounter());
   }
 }
