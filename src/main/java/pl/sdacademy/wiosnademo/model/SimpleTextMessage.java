@@ -1,0 +1,12 @@
+package pl.sdacademy.wiosnademo.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SimpleTextMessage {
+  private String msg;
+}
