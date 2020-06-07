@@ -7,6 +7,10 @@ import javax.jms.ObjectMessage;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +32,12 @@ public class PartsStockListener {
 
   @Transactional
   @JmsListener(destination = Queues.PARTS_STOCK)
-  public void handlePartsStockModification(final ObjectMessage objectMessage) throws JMSException {
-    final PartsStockDto partsStockDto = (PartsStockDto)objectMessage.getObject();
+  @SendTo("tmpReturnQueue")
+  public String handlePartsStockModification(/*final Message<PartsStockDto> partsStockDtoMessage,*/
+                                             @Payload final PartsStockDto partsStockDto,
+                                             @Header("jms_priority") final String priority) throws JMSException {
+    System.out.println("Message send with priority " + priority);
+    //final PartsStockDto partsStockDto = partsStockDtoMessage.getPayload();
     final PartsStock updatedPartsStock;
 
     final Optional<PartsStock> existingPartsStock = partsStockRepository.findByName(partsStockDto.getName());
@@ -40,9 +48,11 @@ public class PartsStockListener {
     } else {
       updatedPartsStock = partsStockRepository.save(new PartsStock(null, partsStockDto.getName(), partsStockDto.getStock()));
     }
+    return "New stock count for " + updatedPartsStock.getName() + " is " + updatedPartsStock.getStock();
 
-    jmsTemplate.send(objectMessage.getJMSReplyTo(), session ->
-        session.createTextMessage("New stock count for " + updatedPartsStock.getName()
-            + " is " + updatedPartsStock.getStock()));
+    // PO STAREMU
+//    jmsTemplate.send(objectMessage.getJMSReplyTo(), session ->
+//        session.createTextMessage("New stock count for " + updatedPartsStock.getName()
+//            + " is " + updatedPartsStock.getStock()));
   }
 }
