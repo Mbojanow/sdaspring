@@ -1,0 +1,8 @@
+version: '3'
+services:
+  webapp:
+    image: sda-first-image:1.0
+    ports:
+      - 8082:8081
+    volumes:
+      - /Users/michalbojanowski/work/repos/spam/sdaspring:/tmp/statuses
