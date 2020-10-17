@@ -41,6 +41,26 @@ public class ShopCrudService {
     shopRepository.update(existingShop);
   }
 
+  public void updatePartially(final Shop updatedShop, final Long id) {
+    final Shop existingShop = findById(id);
+    if (updatedShop.getAddress() != null) {
+      existingShop.setAddress(updatedShop.getAddress());
+    }
+
+    if (updatedShop.getArea() != null) {
+      existingShop.setArea(updatedShop.getArea());
+    }
+
+    if (updatedShop.getName() != null) {
+      existingShop.setName(updatedShop.getName());
+    }
+
+    if (updatedShop.getPhoneNumber() != null) {
+      existingShop.setPhoneNumber(updatedShop.getPhoneNumber());
+    }
+    shopRepository.update(existingShop);
+  }
+
   public void removeShop(final Long id) {
     findById(id);
     shopRepository.deleteById(id);
