@@ -5,16 +5,17 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import pl.sdacademy.wiosnademo.domain.Shop;
 import pl.sdacademy.wiosnademo.exceptions.SdaException;
+import pl.sdacademy.wiosnademo.repositories.ShopJpaRepository;
 import pl.sdacademy.wiosnademo.repositories.ShopRepository;
 
 @Component
 @RequiredArgsConstructor
 public class ShopValidator {
 
-  private final ShopRepository shopRepository;
+  private final ShopJpaRepository shopJpaRepository;
 
   public void validate(final Shop shop) {
-    shopRepository.findByNameAndAddress(shop.getName(), shop.getAddress())
+    shopJpaRepository.findShopWhereNameAndAddressHaveValues(shop.getName(), shop.getAddress())
         .ifPresent(s -> { throw new SdaException(String.format(
             "Shop with name %s at address %s already exists", shop.getName(), shop.getAddress()));});
   }
