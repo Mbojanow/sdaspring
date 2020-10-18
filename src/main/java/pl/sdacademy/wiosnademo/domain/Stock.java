@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,9 +28,11 @@ public class Stock {
   @Column(name = "quantity")
   private Long quantity;
 
+  @JsonIgnore
   @ManyToOne
   private Shop shop;
 
+  @JsonIgnore
   @ManyToOne
   private Product product;
 }

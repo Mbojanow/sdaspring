@@ -22,4 +22,10 @@ public interface ShopJpaRepository extends JpaRepository<Shop, Long> {
   @Query("SELECT s FROM shops s WHERE s.name=:name AND s.address=:address")
   Optional<Shop> findShopWhereNameAndAddressHaveValues(@Param("name") String name,
                                                        @Param("address") String address);
+
+  // znajdź sklepy, w który quantity na stanie jest > 0 na konkretny produkt
+  // znajdź sklepy w których masz konkretny produkt
+  @Query("SELECT s FROM shops s LEFT JOIN FETCH s.stocks st WHERE st.product.id=:product_id")
+  List<Shop> findAllShopsWhichProductIsOnStock(@Param("product_id") Long productId);
+
 }
