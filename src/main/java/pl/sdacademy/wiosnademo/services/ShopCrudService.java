@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import pl.sdacademy.wiosnademo.domain.Shop;
 import pl.sdacademy.wiosnademo.exceptions.SdaException;
 import pl.sdacademy.wiosnademo.repositories.ShopRepository;
+import pl.sdacademy.wiosnademo.services.validation.ShopValidator;
 
 @Transactional
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ import pl.sdacademy.wiosnademo.repositories.ShopRepository;
 public class ShopCrudService {
 
   private final ShopRepository shopRepository;
+  private final ShopValidator shopValidator;
 
   public Shop findById(final Long id) {
     return shopRepository.findById(id)
@@ -28,12 +30,14 @@ public class ShopCrudService {
   }
 
   public Shop createShop(final Shop shop) {
+    shopValidator.validate(shop);
     shop.setId(null);
     return shopRepository.create(shop);
   }
 
   public void update(final Shop updatedShop, final Long id) {
     final Shop existingShop = findById(id);
+    shopValidator.validateUpdate(existingShop, updatedShop);
     existingShop.setAddress(updatedShop.getAddress());
     existingShop.setArea(updatedShop.getArea());
     existingShop.setName(updatedShop.getName());
@@ -43,6 +47,7 @@ public class ShopCrudService {
 
   public void updatePartially(final Shop updatedShop, final Long id) {
     final Shop existingShop = findById(id);
+    shopValidator.validateUpdate(existingShop, updatedShop);
     if (updatedShop.getAddress() != null) {
       existingShop.setAddress(updatedShop.getAddress());
     }

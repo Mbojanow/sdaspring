@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.swing.text.html.Option;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,19 @@ public class ShopRepository {
   public List<Shop> getAll() {
     return entityManager.createQuery("SELECT s FROM shops s", Shop.class)
         .getResultList();
+  }
+
+  public Optional<Shop> findByNameAndAddress(final String name,
+                                             final String address) {
+    final List<Shop> shops = entityManager.createQuery("SELECT s FROM shops s WHERE s.name=:name AND s.address=:address", Shop.class)
+        .setParameter("name", name)
+        .setParameter("address", address)
+        .setMaxResults(1)
+        .getResultList();
+    if (shops.size() == 1) {
+      return Optional.of(shops.get(0));
+    }
+    return Optional.empty();
   }
 
 }
