@@ -33,11 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .headers().frameOptions().disable();
   }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
   @Override
   protected UserDetailsService userDetailsService() {
     return customUserDetailsService;
