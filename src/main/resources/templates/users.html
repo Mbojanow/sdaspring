@@ -12,5 +12,20 @@
     <p th:text="'Status: ' + ${user.getStatus()}"></p>
   </div>
 
+  <div>
+    <form th:action="@{/users/create}" method="post" th:object="${userForm}">
+      <label for="email">Email: </label>
+      <input id="email" type="text" th:field="*{email}">
+
+      <label for="password">Password: </label>
+      <input id="password" type="password" th:field="*{password}">
+
+      <label for="confirmPassword">Confirm Password: </label>
+      <input id="confirmPassword" type="password" th:field="*{confirmPassword}">
+
+      <button type="submit">CREATE USER</button>
+    </form>
+  </div>
+
 </body>
 </html>
