@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +29,12 @@ public class UserController {
   }
 
   @PostMapping("/create")
-  public String handleUserCreation(@Valid @ModelAttribute(name = "userForm") final UserForm userForm) {
-    // tworzenie uzytkownika
+  public String handleUserCreation(@Valid @ModelAttribute(name = "userForm") final UserForm userForm,
+                                   final Errors errors) {
+    if (errors.hasErrors()) {
+      return "users"; // zwracamy tę templatke w ktorej jest źle wypełniony formularz
+    }
+    userService.createUser(userForm);
     return "redirect:/users";
   }
 }

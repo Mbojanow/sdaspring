@@ -16,6 +16,8 @@
     <form th:action="@{/users/create}" method="post" th:object="${userForm}">
       <label for="email">Email: </label>
       <input id="email" type="text" th:field="*{email}">
+      <p th:if="${#fields.hasErrors('email')}"
+        th:text="${#fields.errors('email')}"></p>
 
       <label for="password">Password: </label>
       <input id="password" type="password" th:field="*{password}">

@@ -4,11 +4,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import lombok.RequiredArgsConstructor;
+import pl.sdacademy.wiosnademo.services.CustomUserDetailsService;
+
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  private final CustomUserDetailsService customUserDetailsService;
 
   @Override
   protected void configure(final HttpSecurity http) throws Exception {
@@ -29,5 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
+  }
+
+  @Override
+  protected UserDetailsService userDetailsService() {
+    return customUserDetailsService;
   }
 }
