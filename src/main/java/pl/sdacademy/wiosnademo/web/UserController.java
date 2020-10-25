@@ -2,6 +2,7 @@ package pl.sdacademy.wiosnademo.web;
 
 import javax.validation.Valid;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
@@ -21,6 +22,7 @@ public class UserController {
 
   private final UserService userService;
 
+  @Secured("ROLE_ADMIN")
   @GetMapping
   public String showUsersView(final ModelMap modelMap) {
     modelMap.addAttribute("users", userService.getAllUsers());

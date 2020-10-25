@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import pl.sdacademy.wiosnademo.config.UserProperties;
+import pl.sdacademy.wiosnademo.domain.Role;
 import pl.sdacademy.wiosnademo.domain.User;
 import pl.sdacademy.wiosnademo.model.UserStatus;
 import pl.sdacademy.wiosnademo.repositories.UserRepository;
@@ -32,6 +33,7 @@ public class DbInitializer {
   public void onEvent() {
     userRepository.save(new User(userProperties.getEmail(),
         passwordEncoder.encode(userProperties.getPassword()),
-        userProperties.getStatus(), List.of()));
+        userProperties.getStatus(),
+        List.of(new Role("ROLE_ADMIN", "admin group", true, List.of()))));
   }
 }

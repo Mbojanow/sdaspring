@@ -3,6 +3,7 @@ package pl.sdacademy.wiosnademo.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -40,7 +41,9 @@ public class User {
   @Column(name = "status")
   private UserStatus status;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  // LAZY - findById(userId) -> nie pobiera ról MIMO że MOGĄ BYć
+  // EAGER - pobiera dane z zależnych kolumna (dodatkowe zapytania)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE }) // REMOVE na ManyToMany -> BOOM
   @JoinTable(name = "users_to_roles",
     joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "email"),
     inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "name")) // definicja dla Role
