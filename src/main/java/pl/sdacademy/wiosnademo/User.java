@@ -8,7 +8,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -24,7 +23,7 @@ public class User {
   private String username;
 
   @Column(name = "email")
-  @Email
+  @UniqueEmail
   private String email;
 
   @Enumerated(EnumType.STRING)

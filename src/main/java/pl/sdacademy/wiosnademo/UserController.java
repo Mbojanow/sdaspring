@@ -31,6 +31,7 @@ public class UserController {
       return "users";
     }
     userService.createUser(user);
+    //if (1 == 1) throw new RuntimeException("BOOM");
     return "redirect:/users";
   }
 }
