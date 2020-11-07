@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Users</title>
+</head>
+<body>
+  <div>
+    <div th:each="usr : ${users}">
+      <p th:text="${usr.username}"></p>
+      <p th:text="${usr.email}"></p>
+    </div>
+  </div>
+
+  <div>
+    <form th:action="@{/users}" method="post" th:object="${user}">
+      <label for="username" th:text="#{user.username.label}"></label>
+      <input id="username" type="text" th:field="*{username}">
+      <div th:if="${#fields.hasErrors('username')}">
+        <p th:each="err : ${#fields.errors('username')}" th:text="${err}"></p>
+      </div>
+
+      <label for="email" th:text="#{user.email.label}"></label>
+      <input id="email" type="text" th:field="*{email}">
+      <div th:if="${#fields.hasErrors('email')}">
+        <p th:each="err : ${#fields.errors('email')}" th:text="${err}"></p>
+      </div>
+
+      <label for="user-type" th:text="#{user.type.label}"></label>
+      <select id="user-type" th:field="*{type}">
+        <option th:each="userType : ${T(pl.sdacademy.demo.entities.UserType).values()}"
+                th:value="${userType}" th:text="${userType}"></option>
+      </select>
+
+      <button type="submit">Create user</button>
+    </form>
+  </div>
+
+</body>
+</html>
