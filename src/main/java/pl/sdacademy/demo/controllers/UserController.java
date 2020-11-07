@@ -32,10 +32,11 @@ public class UserController {
 
   @PostMapping("/users")
   public String createUser(@Valid @ModelAttribute(name = "user") final User userToCreate, final Errors errors) {
-    userValidator.validateUser(userToCreate, errors);
+    //userValidator.validateUser(userToCreate, errors);
     if (errors.hasErrors()) {
       return "users";
     }
+    //if (1 == 1) throw new RuntimeException("Sth went wrong");//return "redirect:/error";
     userService.createUser(userToCreate);
     return "redirect:/users"; // powrót na GETa
   }

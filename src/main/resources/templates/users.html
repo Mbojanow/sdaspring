@@ -5,6 +5,7 @@
   <title>Users</title>
 </head>
 <body>
+  <p th:text="${#locale}"></p>
   <div>
     <div th:each="usr : ${users}">
       <p th:text="${usr.username}"></p>
@@ -29,7 +30,7 @@
       <label for="user-type" th:text="#{user.type.label}"></label>
       <select id="user-type" th:field="*{type}">
         <option th:each="userType : ${T(pl.sdacademy.demo.entities.UserType).values()}"
-                th:value="${userType}" th:text="${userType}"></option>
+                th:value="${userType}" th:text="#{__${userType.getMessageKey()}__}"></option>
       </select>
 
       <button type="submit">Create user</button>

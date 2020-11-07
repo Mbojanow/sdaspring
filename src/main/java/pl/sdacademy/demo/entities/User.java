@@ -29,6 +29,7 @@ public class User {
 
   @Email
   @NotNull
+  @UniqueMail
   private String email;
 
   @Enumerated(EnumType.STRING)
