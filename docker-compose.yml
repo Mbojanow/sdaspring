@@ -1,0 +1,6 @@
+version: '3'
+services:
+  sda_web_app:
+    image: sda_first_docker_app:1.0
+    ports:
+    - 8081:8081
