@@ -1,7 +1,11 @@
 package ok.sdacademy.mappers;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,4 +24,8 @@ public class User {
   private String username;
 
   private String password;
+
+  @OneToMany
+  @JoinColumn(name = "user_id")
+  private List<Group> groups;
 }
