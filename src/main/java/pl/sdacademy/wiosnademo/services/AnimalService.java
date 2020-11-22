@@ -1,18 +1,20 @@
 package pl.sdacademy.wiosnademo.services;
 
+import static java.util.Objects.isNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import pl.sdacademy.wiosnademo.aspects.EntryExitLogger;
 import pl.sdacademy.wiosnademo.domain.Animal;
 import pl.sdacademy.wiosnademo.exception.SdaException;
 import pl.sdacademy.wiosnademo.model.AnimalDto;
 import pl.sdacademy.wiosnademo.model.mapper.AnimalMapper;
 import pl.sdacademy.wiosnademo.repository.AnimalRepository;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.Objects.isNull;
 
 @Transactional
 @Service
@@ -34,7 +36,12 @@ public class AnimalService {
     return animalMapper.animalToAnimalDto(animal);
   }
 
+  @EntryExitLogger
   public List<AnimalDto> getAllAnimals() {
+    return getAllAnimalsPrivate();
+  }
+
+  private List<AnimalDto> getAllAnimalsPrivate() {
     return animalRepository.getAll().stream()
         .map(animalMapper::animalToAnimalDto)
         .collect(Collectors.toList());
