@@ -24,5 +24,9 @@ public class UserService {
     return userMapper.toUserDto(userRepository.save(userToCreate));
   }
 
+  public UserDto findUserById(final Long id) {
+    final User user = userRepository.findById(id).orElseThrow();
+    return userMapper.toUserDto(user);
+  }
 
 }

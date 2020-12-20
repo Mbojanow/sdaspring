@@ -1,9 +1,13 @@
 package pl.sdacademy.wiosnademo.domain;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue()
   private Long id;
 
   @Column(name = "username")
@@ -27,5 +31,9 @@ public class User {
 
   @Column(name = "email")
   private String email;
+
+  @OneToMany // @OneToOne, @ManyToOne, @ManyToMany
+  @JoinColumn(name = "user_id")
+  private Set<Group> groups;
 
 }
