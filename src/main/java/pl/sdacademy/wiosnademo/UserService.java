@@ -2,6 +2,9 @@ package pl.sdacademy.wiosnademo;
 
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +30,12 @@ public class UserService {
   public UserDto findUserById(final Long id) {
     final User user = userRepository.findById(id).orElseThrow();
     return userMapper.toUserDto(user);
+  }
+
+  public Page<UserDto> getPageOfUsers(final Integer pageNum, final Integer pageSize) {
+    final Page<User> page = userRepository.findAll(PageRequest.of(pageNum, pageSize,
+        Sort.by("email").descending()));
+    return page.map(userMapper::toUserDto);
   }
 
 }
