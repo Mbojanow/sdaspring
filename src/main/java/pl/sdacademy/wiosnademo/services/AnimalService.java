@@ -3,6 +3,8 @@ package pl.sdacademy.wiosnademo.services;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import pl.sdacademy.wiosnademo.aspects.EntryExitLogger;
 import pl.sdacademy.wiosnademo.domain.Animal;
 import pl.sdacademy.wiosnademo.exception.SdaException;
 import pl.sdacademy.wiosnademo.model.AnimalDto;
@@ -34,6 +36,7 @@ public class AnimalService {
     return animalMapper.animalToAnimalDto(animal);
   }
 
+  @EntryExitLogger
   public List<AnimalDto> getAllAnimals() {
     return animalRepository.getAll().stream()
         .map(animalMapper::animalToAnimalDto)
