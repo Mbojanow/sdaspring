@@ -1,10 +1,10 @@
-package pl.sdacademy.wiosnademo;
+package com.example.validation_example;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WiosnaDemoApplicationTests {
+class ValidationExampleApplicationTests {
 
 	@Test
 	void contextLoads() {
